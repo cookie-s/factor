@@ -4,9 +4,7 @@ extern crate factor;
 
 use num::bigint::BigUint;
 use num::One;
-use factor::{pm1, fermat};
-
-use std::io;
+use factor::*;
 
 enum Method {
     Fermat,
@@ -19,7 +17,7 @@ fn main() {
         let mut n = BigUint::one();
 
         let mut line = String::new();
-        io::stdin().read_line(&mut line).unwrap();
+        std::io::stdin().read_line(&mut line).unwrap();
 
         let it = line.trim().split_whitespace();
         for s in it {
