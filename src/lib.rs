@@ -2,7 +2,7 @@ extern crate core;
 extern crate num;
 
 use num::bigint::BigUint;
-use num::{Integer, One};
+use num::{Integer, Zero, One};
 
 /// factor by Pollard's P-1 method.
 /// r is prime bounder
@@ -28,8 +28,6 @@ pub fn pm1(n : &BigUint, r : usize) -> BigUint {
 
 #[test]
 pub fn pm1_test() {
-    use num::Zero;
-
     let n = BigUint::from(299u32);
     // 299 = 13 * 23 = (2*2*3 + 1) * (2*11 + 1)
 
@@ -46,7 +44,11 @@ pub fn pm1_test() {
 
 /// the floor of sqrt by binary search
 fn sqrt(n : &BigUint) -> BigUint {
-    let mut a = BigUint::one();
+    if n == &BigUint::one() {
+        return BigUint::one();
+    }
+
+    let mut a = BigUint::zero();
     let mut b = n.clone();
 
     while &b - &a > BigUint::one() {
@@ -64,6 +66,9 @@ fn sqrt(n : &BigUint) -> BigUint {
 
 #[test]
 pub fn sqrt_test() {
+    assert_eq!(sqrt(&BigUint::from(0u8)), BigUint::from(0u8));
+    assert_eq!(sqrt(&BigUint::from(1u8)), BigUint::from(1u8));
+    assert_eq!(sqrt(&BigUint::from(2u8)), BigUint::from(1u8));
     assert_eq!(sqrt(&BigUint::from(143u8)), BigUint::from(11u8));
     assert_eq!(sqrt(&BigUint::from(144u8)), BigUint::from(12u8));
     assert_eq!(sqrt(&BigUint::from(145u8)), BigUint::from(12u8));
@@ -86,8 +91,6 @@ pub fn fermat(n : &BigUint) -> BigUint {
 
 #[test]
 pub fn fermat_test() {
-    use num::Zero;
-
     let n = BigUint::from(299u32);
     // 299 = 13 * 23
 
